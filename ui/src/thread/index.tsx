@@ -1,7 +1,7 @@
-// 右栏:顶栏(头像 + 标题 + 设置钮)+ 消息流 + 输入区。
+// 右栏:顶栏(头像 + 标题 + 模型)+ 消息流 + 输入区。
 import { useEffect } from "react";
 import { Link, useParams } from "react-router";
-import { Avatar, Icon } from "../icons/Icon";
+import { Avatar } from "../icons/Icon";
 import { Composer } from "./Composer";
 import { MessageStream } from "./MessageStream";
 import { createDraft, openThread, threadTitle, useThread } from "./store";
@@ -27,9 +27,6 @@ export function ThreadView() {
           <span className="topbar-title clip">{title}</span>
           {status?.model && <span className="topbar-model clip">{status.model}</span>}
         </div>
-        <Link to="/settings" className="icon-btn" title="设置">
-          <Icon name="settings" size={17} />
-        </Link>
       </header>
       {!online && (
         <div className="connection-note">连接已断开，正在重连；已开始的任务会继续运行。</div>

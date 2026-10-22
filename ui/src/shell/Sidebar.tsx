@@ -1,7 +1,7 @@
 // 左栏:搜索框 + 新建对话,下面是对话列表(头像、标题、最后一句预览、时间)。
-// 选中行蓝底白字;悬停露出「更多」钮,右键或点它弹出 重命名 / 删除;正在回复的行头像角上亮一个点。
+// 选中行蓝底白字;右键弹出 重命名 / 删除;正在回复的行头像角上亮一个点。底部是全局的设置入口。
 import { useEffect, useState, type MouseEvent as ReactMouseEvent } from "react";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 
 import { Avatar, Icon } from "../icons/Icon";
 import { Sheet } from "../overlay/Sheet";
@@ -107,14 +107,6 @@ export function Sidebar() {
           </span>
           <span className="conv-preview">{preview || "还没有消息"}</span>
         </span>
-        <button
-          className="conv-more"
-          title="更多"
-          aria-haspopup="menu"
-          onClick={(event) => openMenu(event, thread)}
-        >
-          <Icon name="more" size={15} />
-        </button>
       </Link>
     );
   };
@@ -175,6 +167,16 @@ export function Sidebar() {
           {!list.length && (
             <div className="side-empty">{query ? "没有匹配的对话" : "还没有对话"}</div>
           )}
+        </div>
+
+        <div className="side-foot">
+          <NavLink
+            to="/settings"
+            className={({ isActive }) => `side-settings${isActive ? " on" : ""}`}
+          >
+            <Icon name="settings" size={16} />
+            <span>设置</span>
+          </NavLink>
         </div>
       </aside>
 

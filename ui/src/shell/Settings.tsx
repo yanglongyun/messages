@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 
 import { api } from "../lib/api";
 import { toast } from "../overlay/toast";
-import { Icon } from "../icons/Icon";
-import { Link } from "react-router";
 import { loadStatus, useThread } from "../thread/store";
 
 interface ConfigView {
@@ -157,9 +155,6 @@ export function Settings() {
   return (
     <section className="settings-page">
       <header className="topbar">
-        <Link to="/" className="icon-btn" title="返回对话">
-          <Icon name="back" size={18} />
-        </Link>
         <span className="topbar-title">设置</span>
       </header>
       <main className="settings-content">

@@ -6,7 +6,7 @@
 ## 这是什么
 
 messages 是 iimos 的一个形态：长得像 Apple「信息」（iMessage）。左边一栏是搜索框、新建对话钮和对话列表（头像、标题、最后一句预览、时间；
-右键或悬停出「重命名 / 删除」），右边是选中的对话：你的话是右侧蓝气泡，agent 的回复是左侧灰气泡（流式显示），思考和工具调用各折成一行，
+右键出「重命名 / 删除」；底部是全局的设置入口），右边是选中的对话：你的话是右侧蓝气泡，agent 的回复是左侧灰气泡（流式显示），思考和工具调用各折成一行，
 点开看参数和结果；底部是圆角输入框 + 蓝色发送钮，回复中变成停止钮。
 五个工具：shell、read、write、edit、browser。模型用用户自己的（BYOK），配置在 `$IIMOS_DATA/config.json`。
 
@@ -39,7 +39,7 @@ server/
 ui/                 界面：React + TypeScript，Apple「信息」风格
   index.html        只引用 dist/main.js 和 dist/main.css
   src/main.tsx      入口；router.tsx 路由（/、/sessions/:id、/settings）
-  src/shell/        Sidebar.tsx 左栏（搜索、新建、列表、右键菜单、重命名 / 删除弹窗）；Settings.tsx 设置页
+  src/shell/        Sidebar.tsx 左栏（搜索、新建、列表、右键菜单、重命名 / 删除弹窗、底部设置入口）；Settings.tsx 设置页
   src/thread/       右栏：index.tsx 顶栏；MessageStream.tsx 气泡流；Steps.tsx 思考 / 工具行与「正在输入」；Composer.tsx 输入区；
                     store.ts 状态与接口调用；thread.ts 把消息记录变成显示行；events.ts 事件类型；stream.ts SSE；format.tsx markdown 与时间
   src/styles/       tokens.css 颜色令牌（浅色 / 深色）；base.css 基底；app.css 全部布局和气泡
@@ -56,7 +56,7 @@ package.json        version 是出厂版本号；iimos.contract 是需要的 lau
 - 来一条存一条；停止或失败时给没有结果的工具调用补一条 `{ success: false, text: "已停止" }`。
 - 列表每行带 `subject`（第一条用户消息，没起标题时当标题）和 `preview`（最后一条正文，列表里的预览）、`last_role`（预览前要不要加「你：」）。
   搜索走服务端 `GET /api/sessions?q=`：标题或任一条消息正文包含就算命中，取最近 50 个。
-- 气泡：同一人连发挨得近，最后一条带小尾巴；隔 15 分钟以上插一条时间标签。正文还没流出来时显示三个点的「正在输入」。
+- 气泡：同一人连发挨得近，换人时多空一点（不画小尾巴）；隔 15 分钟以上插一条时间标签。正文还没流出来时显示三个点的「正在输入」。
 - 正文是流式展示的，所以 ai/index.js 不开 `retryAfterDelivery`（已交付增量再重试会把前半段重复给用户看）；断流只在还没交付内容时重试。
 - `config.json` 是所有形态共用的：responsesUrl / apiKey / model 三项是契约定的，别改它们的意思；别的形态写的字段原样保留。
   本形态自己的数据库 `chat.db` 和 `images/` 在 `$IIMOS_DATA/messages/` 下。
